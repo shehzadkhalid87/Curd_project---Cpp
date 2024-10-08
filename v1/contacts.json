@@ -1,0 +1,11 @@
+[
+    {
+        "id": "C001",
+        "first_name": "hamid",
+        "last_name": "josh",
+        "phone": "90808",
+        "email": "hamid.josh@gmail.com",
+        "age": 45,
+        "gender": "male"
+    }
+]

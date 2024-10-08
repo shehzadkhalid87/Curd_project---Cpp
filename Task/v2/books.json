@@ -1,0 +1,26 @@
+[
+    {
+        "id": "BK1",
+        "author": "doe",
+        "title": "War",
+        "publish_year": 2022,
+        "price": 300.0,
+        "genre": "histroy"
+    },
+    {
+        "id": "f0629e86-5bd5-4fb9-9b2c-baa3a5bfba15",
+        "author": "of",
+        "title": "Arts",
+        "publish_year": 2020,
+        "price": 400.0,
+        "genre": "war"
+    },
+    {
+        "id": "6e46122c-9edd-48ae-9cb8-7357a838d39a",
+        "author": "jan",
+        "title": "sanmbath",
+        "publish_year": 2012,
+        "price": 80.9000015258789,
+        "genre": "ii"
+    }
+]

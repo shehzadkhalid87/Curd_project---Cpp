@@ -1,0 +1,26 @@
+[
+    {
+        "id": "CAR1",
+        "make": "car",
+        "model": "cer",
+        "year": 23,
+        "price": 122.0,
+        "color": "wer"
+    },
+    {
+        "id": "43c862d2-b4d5-413a-80f3-08c0b592332c",
+        "make": "surf",
+        "model": "cr",
+        "year": 2020,
+        "price": 2000.989990234375,
+        "color": "red"
+    },
+    {
+        "id": "38115e18-0f2a-44e0-8f2d-d77147666f02",
+        "make": "jimmy",
+        "model": "jimmys",
+        "year": 2020,
+        "price": 300.0,
+        "color": "purple"
+    }
+]

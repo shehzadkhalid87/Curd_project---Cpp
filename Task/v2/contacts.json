@@ -1,0 +1,38 @@
+[
+    {
+        "id": "C001",
+        "first_name": "shehzad",
+        "last_name": "khalid",
+        "phone": "+923346040419",
+        "email": "shehzad.khalid@gmail.com",
+        "age": 21,
+        "gender": "M"
+    },
+    {
+        "id": "5547dd1f-b1b0-404c-974b-b9214d0619e8",
+        "first_name": "Shezad",
+        "last_name": "baloch",
+        "phone": "+923168270947",
+        "email": "abc@gmail.com",
+        "age": 22,
+        "gender": "M"
+    },
+    {
+        "id": "7c6aa782-2364-4383-a905-4a1c45ab8f17",
+        "first_name": "junaid",
+        "last_name": "aslam",
+        "phone": "+923117299192",
+        "email": "Abcd@gmail.com",
+        "age": 21,
+        "gender": "M"
+    },
+    {
+        "id": "394d8a80-7752-4f2a-9372-2bdad9b4603b",
+        "first_name": "xx",
+        "last_name": "xx",
+        "phone": "+923168270946",
+        "email": "test@email.com",
+        "age": 22,
+        "gender": "M"
+    }
+]

@@ -1,0 +1,42 @@
+/v3
+  /src
+    /db
+     db.cpp
+     
+    /models
+      users_model.cpp
+      books_model.cpp
+      user_books_model.cpp
+    
+    /service
+      user_service.cpp
+      books_service.cpp
+
+    /utils
+
+    /cli
+      user_cli_menue.cpp
+      books_cli_menue.cpp
+    
+    /web
+      /routes
+       user_route.cpp
+       ...
+
+      /controllers
+       user_controller.cpp -> web
+      /errors
+       custom_error.cpp
+       error_handler.cpp
+
+v3/
+  src/
+     user/
+        controller.cpp
+        service.cpp
+        model.cppp
+        route.cpp
+     books/
+  config/
+  error/
+  db/     
