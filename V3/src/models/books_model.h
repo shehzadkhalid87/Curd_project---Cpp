@@ -5,6 +5,7 @@
 #include <mysql_connection.h>
 #include <cppconn/prepared_statement.h>
 #include "../db/db.h"
+#include "vector"
 #include <iostream>
 using namespace std;
 
@@ -184,5 +185,6 @@ static void insert_book(Books &book)
         }
         return true;
     }
+ 
 };
 #endif

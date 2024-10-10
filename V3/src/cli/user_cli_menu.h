@@ -31,13 +31,37 @@ void userCli(User &user)
 
             f_n = validateName("Enter first name: ");
             l_n = validateName("Enter last name: ");
-            ph = validatePhone("Enter phone number: ");
-            em = validateEmail("Enter email: ");
-            password = validateName("Enter password: ");
+            while (true)
+            {
+                User user;
+                em = validateEmail("Enter email: ");
+
+                if (User::checkIfEmail(em)) 
+                {
+                    cout << "Email already exists. Please try again." << endl;
+                }
+                else
+                {
+                    break; 
+                }
+            }
+            while(true)
+            {
+                ph = validatePhone("Enter phone number: ");
+                if(User::checkIfPhone(ph)) 
+                {
+                    cout << "Phone already taken.";
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+            password = validatePassword("Enter password: ");
 
             User newUser(f_n, l_n, em, ph, password);
             User::InsertUser(newUser);
-            cout << "User added successfully.\n";
             break;
         }
 
@@ -53,18 +77,18 @@ void userCli(User &user)
             l_n = validateName("Enter last name: ");
             ph = validatePhone("Enter phone number: ");
             em = validateEmail("Enter email: ");
-            password = validateName("Enter password: ");
+            password = validatePassword("Enter password: ");
 
             User updatedUser(f_n, l_n, em, ph, password);
             User::updateUser(id, updatedUser);
-            cout << "User updated successfully.\n";
+        
             break;
         }
 
         case 3:
         {
             int id;
-            if (User::isDatabaseEmpty()) 
+            if (User::isDatabaseEmpty())
             {
                 cout << "Database is empty!\n";
                 break;
@@ -73,7 +97,7 @@ void userCli(User &user)
             cout << "Enter user ID to delete: ";
             cin >> id;
 
-            if (User::deleteUser(id)) 
+            if (User::deleteUser(id))
             {
                 cout << "User deleted successfully.\n";
             }
@@ -95,7 +119,8 @@ void userCli(User &user)
             }
             break;
         }
-        case 5:{
+        case 5:
+        {
             return;
             break;
         }

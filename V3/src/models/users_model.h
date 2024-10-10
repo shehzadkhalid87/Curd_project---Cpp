@@ -7,7 +7,9 @@
 #include <cppconn/resultset.h>
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 #include "../db/db.h"
+#include "../passwordmanger/PasswordManager.h"
 
 using namespace std;
 
@@ -23,9 +25,7 @@ public:
     vector<int> books;
     string created_at;
     string updated_at;
-
-    // Constructor for existing users
-    User(int _id, const string &_first_name, const string &_last_name, const string &_email,
+       User(int _id, const string &_first_name, const string &_last_name, const string &_email,
          const string &_phone, const string &_password, const string &_created_at, const string &_updated_at)
         : id(_id), first_name(_first_name), last_name(_last_name), email(_email),
           phone(_phone), password(_password), created_at(_created_at), updated_at(_updated_at) {}
@@ -33,11 +33,50 @@ public:
     User(const string &_first_name, const string &_last_name, const string &_email,
          const string &_phone, const string &_password)
         : id(0), first_name(_first_name), last_name(_last_name), email(_email),
-          phone(_phone), password(_password), created_at("NOW()"), updated_at("NOW()") {}
+          phone(_phone), password(PasswordManager::hashPassword(_password)), created_at(""), updated_at("") {}
 
     User() : id(0), first_name(""), last_name(""), email(""), phone(""), password(""), created_at(""), updated_at("") {}
 
-    // Insert new user into the database
+
+
+    
+    static bool checkIfEmail(const string &email) 
+    {
+        try
+        {
+            auto con = DBconnection::getConnection();
+            unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) FROM users WHERE email = ?"));
+            pstmt->setString(1, email);
+            unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+            res->next();
+            int count = res->getInt(1);
+            return count > 0;
+        }
+        catch (sql::SQLException &e)
+        {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
+    }
+
+    static bool checkIfPhone(const string &phone) 
+    {
+        try
+        {
+            auto con = DBconnection::getConnection();
+            unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) FROM users WHERE phone = ?"));
+            pstmt->setString(1, phone);
+            unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+            res->next();
+            int count = res->getInt(1);
+            return count > 0;
+        }
+        catch (sql::SQLException &e)
+        {
+            cout << "Error: " << e.what() << endl;
+            return false;
+        }
+    }
     static void InsertUser(const User &user)
     {
         try
@@ -55,10 +94,12 @@ public:
         catch (sql::SQLException &e)
         {
             cerr << "SQL Error: " << e.what() << endl;
+            throw;
         }
         catch (const exception &e)
         {
             cerr << "Error: " << e.what() << endl;
+            throw;
         }
     }
 
@@ -80,10 +121,12 @@ public:
         catch (sql::SQLException &e)
         {
             cerr << "SQL Error: " << e.what() << endl;
+            throw;
         }
         catch (const exception &e)
         {
             cerr << "Error: " << e.what() << endl;
+            throw;
         }
     }
 
@@ -95,17 +138,18 @@ public:
             unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("DELETE FROM users WHERE id = ?"));
             pstmt->setInt(1, userId);
             pstmt->execute();
-            cout << "User Deleted Successfully" << endl;
+            return true;
         }
         catch (sql::SQLException &e)
         {
             cerr << "SQL Error: " << e.what() << endl;
+            return false;
         }
         catch (const exception &e)
         {
             cerr << "Error: " << e.what() << endl;
+            return false;
         }
-        return true;
     }
 
     static vector<User> findAllUsers()
@@ -168,30 +212,58 @@ public:
     }
 
     static bool isDatabaseEmpty()
-{
-    try
     {
-        auto con = DBconnection::getConnection(); 
-        unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) AS userCount FROM users"));
-        unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
-
-        if (res->next())
+        try
         {
-            int userCount = res->getInt("userCount");
-            return userCount == 0;
+            auto con = DBconnection::getConnection();
+            unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT COUNT(*) AS userCount FROM users"));
+            unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+
+            if (res->next())
+            {
+                int userCount = res->getInt("userCount");
+                return userCount == 0;
+            }
+        }
+        catch (const sql::SQLException &e)
+        {
+            cerr << "SQL Error: " << e.what() << endl;
+        }
+        catch (const exception &e)
+        {
+            cerr << "Error: " << e.what() << endl;
+        }
+        return true;
+    }
+
+    static User findUserByEmail(const string &email)
+    {
+        try
+        {
+            auto con = DBconnection::getConnection();
+            unique_ptr<sql::PreparedStatement> pstmt(con->prepareStatement("SELECT * FROM users WHERE email = ?"));
+            pstmt->setString(1, email);
+            unique_ptr<sql::ResultSet> res(pstmt->executeQuery());
+
+            if (res->next())
+            {
+                return User(res->getInt("id"), res->getString("first_name"), res->getString("last_name"),
+                            res->getString("email"), res->getString("phone"), res->getString("password"),
+                            res->getString("created_at"), res->getString("updated_at"));
+            }
+            else
+            {
+                throw runtime_error("User not found.");
+            }
+        }
+        catch (const sql::SQLException &e)
+        {
+            cerr << "SQL Error: " << e.what() << endl;
+            throw;
         }
     }
-    catch (const sql::SQLException &e)
-    {
-        cerr << "SQL Error: " << e.what() << endl;
-    }
-    catch (const exception &e)
-    {
-        cerr << "Error: " << e.what() << endl;
-    }
-    return true; 
-}
 
+   
 };
 
 #endif

@@ -14,7 +14,7 @@ string trim(string &str)
     size_t first = str.find_first_not_of(' ');
     if (first == string::npos)
     {
-        return " "; 
+        return " ";
     }
     size_t last = str.find_last_not_of(' ');
     return str.substr(first, last - first + 1);
@@ -24,16 +24,16 @@ string trim(string &str)
 string validateName(const string &prompt)
 {
     string name;
-    regex namePattern("^[A-Za-z\\s]+$"); 
+    regex namePattern("^[A-Za-z\\s]+$");
     while (true)
     {
         cout << prompt;
-        cin>> name;
+        cin >> name;
         name = trim(name);
 
         if (regex_match(name, namePattern))
         {
-            return name; 
+            return name;
         }
         else
         {
@@ -49,16 +49,16 @@ int validateIntegers(const string &prompt)
     while (true)
     {
         cout << prompt;
-        if (cin >> val) 
+        if (cin >> val)
         {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             return val; // Return valid integer
         }
         else
         {
             cout << "Invalid input, please enter a valid integer." << endl;
-            cin.clear(); 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
 }
@@ -70,15 +70,15 @@ float validateFloat(const string &prompt)
     while (true)
     {
         cout << prompt;
-        if (cin >> val) 
+        if (cin >> val)
         {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-            return val; 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            return val;
         }
         else
         {
             cout << "Invalid input! Please enter a valid number." << endl;
-            cin.clear(); 
+            cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
@@ -88,17 +88,17 @@ float validateFloat(const string &prompt)
 string validatePhone(const string &prompt)
 {
     string phone;
-    regex phonePattern(R"(^\+\d{1,3}\d{9,10}$)"); 
+    regex phonePattern(R"(^\+\d{1,3}\d{9,10}$)");
 
     while (true)
     {
         cout << prompt;
-        cin>>phone;
+        cin >> phone;
         phone = trim(phone);
 
         if (regex_match(phone, phonePattern))
         {
-            return phone; 
+            return phone;
         }
         else
         {
@@ -111,7 +111,7 @@ string validatePhone(const string &prompt)
 string validateEmail(const string &prompt)
 {
     string email;
-    regex emailPattern(R"(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$)"); 
+    regex emailPattern(R"(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$)");
     while (true)
     {
         cout << prompt;
@@ -120,7 +120,7 @@ string validateEmail(const string &prompt)
 
         if (regex_match(email, emailPattern))
         {
-            return email; 
+            return email;
         }
         else
         {
@@ -139,13 +139,38 @@ string validateGender(const string &prompt)
         cin >> gender;
         gender = trim(gender);
 
-        if (gender == "M" || gender == "F" || gender == "m" || gender == "f") 
+        if (gender == "M" || gender == "F" || gender == "m" || gender == "f")
         {
-            return gender; 
+            return gender;
         }
         else
         {
             cout << "Invalid gender! Please enter 'M' for male or 'F' for female." << endl;
+        }
+    }
+}
+string validatePassword(const string &prompt)
+{
+    string password;
+    /* Password should be at least 8 characters, contain at least one digit
+    one lowercase letter, one uppercase letter, and one special character.*/
+    regex passwordPattern(R"((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,})");
+
+    while (true)
+    {
+        cout << prompt;
+        cin >> password;
+        password = trim(password);
+
+        if (regex_match(password, passwordPattern))
+        {
+            return password;
+        }
+        else
+        {
+            cout << "Invalid password. Your password must be at least 8 characters long, "
+                 << "contain one uppercase letter, one lowercase letter, one digit, "
+                 << "and one special character (@, $, !, %, *, ?, &)." << endl;
         }
     }
 }

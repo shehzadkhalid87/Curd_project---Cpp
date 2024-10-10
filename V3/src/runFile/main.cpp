@@ -4,8 +4,7 @@ using namespace std;
 
 
 int main() {
-    User user;
-    Books books;
-    mainMenu(user,books);
+    
+    Menu();
     return 0;
 }
